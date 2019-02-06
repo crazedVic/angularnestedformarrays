@@ -1,27 +1,117 @@
-# NgReactivefrm
+# Angular Reactive Forms with lots of Nesting
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.3.
+I looked everywhere for a solution I could just copy and paste into my project but with no luck, so here's my attempt at providing it for the next poor soul stuck in my situation. I've tried to keep the code as simple as possible.
 
-## Development server
+# You have a league
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+league_details: this.fb.group({
+        name: "",
+        founder: ""
+      })
+```
 
-## Code scaffolding
+# A league has teams
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+this.leagueForm = this.fb.group({
+      league_details: this.fb.group({
+        name: "",
+        founder: ""
+      }),
+      teams: this.fb.array([this.teams])
+    });
+```
 
-## Build
+# Teams have names and players
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+get teams(): FormGroup {
+    return this.fb.group({
+      team_name: "",
+      players: this.fb.array([this.players])
+    });
+  }
+```
 
-## Running unit tests
+# Players have names and numbers
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+get players(): FormGroup {
+    return this.fb.group({
+      player_name: "",
+      player_number: ""
+    });
+  }
+```
 
-## Running end-to-end tests
+# You have a FormGroup
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+<form [formGroup]="leagueForm">
+```
 
-## Further help
+# Show League Detail
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+<div class="form-header" formGroupName="league_details">
+    <label>League Name <input formControlName="name"/></label>
+    <label>Founder <input formControlName="founder"/></label>
+  </div>
+```
+
+# Show Teams
+
+It's VITAL you have a wrapping div that defines formArrayName!
+
+```
+<div formArrayName="teams">
+    <div class="teams" *ngFor="let team of leagueForm.get('teams').controls;
+             let teamIndex = index" [formGroupName]="teamIndex">
+      <label>Team Name <input formControlName="team_name"/></label>
+      <!--  Next section goes here -->
+    </div>
+</div>
+```
+
+# Show Players inside Teams
+
+Again, important you have a wrapping div with formArrayName. Also, you need to add players in context of the team. Notice in ngFor i am referencing the team variable
+defined in the ngFor loop above for teams. I will also need to reference this team when removing or adding players
+
+```
+<div formArrayName="players">
+    <div class="players" *ngFor="let player of team.get('players').controls;
+        let playerIndex=index" [formGroupName]="playerIndex">
+        <label>Player Name <input formControlName="player_name" />
+        <label>Player Number <input formControlName="player_number"/></label>
+    </div>
+</div>
+```
+
+# Adding Teams
+
+Place ADD button just above the div that defines the formArrayArrayName teams
+
+```
+ <button type="button" (click)="addTeam()">Add Team</button>
+```
+
+```
+addTeam() {
+    (this.leagueForm.get("teams") as FormArray).push(this.teams);
+  }
+```
+
+#Adding Players
+Place ADD button just above the div that defines the formArrayName players, and remember to pass in the team variable from the enclosing ngFor loop.
+
+```
+<button type="button" (click)="addPlayer(team)">Add Player</button>
+```
+
+```
+addPlayer(team) {
+    team.get("players").push(this.players);
+  }
+```
