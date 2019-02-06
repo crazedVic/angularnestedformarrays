@@ -77,7 +77,9 @@ It's VITAL you have a wrapping div that defines formArrayName!
 # Show Players inside Teams
 
 Again, important you have a wrapping div with formArrayName. Also, you need to add players in context of the team. Notice in ngFor i am referencing the team variable
-defined in the ngFor loop above for teams. I will also need to reference this team when removing or adding players
+defined in the ngFor loop above for teams. I will also need to reference this team when removing or adding players.
+
+Also noticed the <span> element, this is how you reference the field for validation functionality.
 
 ```
 <div formArrayName="players">
@@ -85,6 +87,7 @@ defined in the ngFor loop above for teams. I will also need to reference this te
         let playerIndex=index" [formGroupName]="playerIndex">
         <label>Player Name <input formControlName="player_name" />
         <label>Player Number <input formControlName="player_number"/></label>
+        <span *ngIf="player.get('player_number').touched">touched!</span>
     </div>
 </div>
 ```
