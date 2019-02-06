@@ -79,7 +79,7 @@ It's VITAL you have a wrapping div that defines formArrayName!
 Again, important you have a wrapping div with formArrayName. Also, you need to add players in context of the team. Notice in ngFor i am referencing the team variable
 defined in the ngFor loop above for teams. I will also need to reference this team when removing or adding players.
 
-Also noticed the <span> element, this is how you reference the field for validation functionality.
+Also notice the `<span>` element, this is how you reference the field for validation functionality.
 
 ```
 <div formArrayName="players">
