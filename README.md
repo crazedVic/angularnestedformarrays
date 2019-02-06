@@ -69,7 +69,7 @@ It's VITAL you have a wrapping div that defines formArrayName!
     <div class="teams" *ngFor="let team of leagueForm.get('teams').controls;
              let teamIndex = index" [formGroupName]="teamIndex">
       <label>Team Name <input formControlName="team_name"/></label>
-      <!--  Next section goes here -->
+      <!--  div with formArrayName='players' goes here (see below) -->
     </div>
 </div>
 ```
