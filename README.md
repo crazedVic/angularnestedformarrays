@@ -103,7 +103,8 @@ addTeam() {
   }
 ```
 
-#Adding Players
+# Adding Players
+
 Place ADD button just above the div that defines the formArrayName players, and remember to pass in the team variable from the enclosing ngFor loop.
 
 ```
