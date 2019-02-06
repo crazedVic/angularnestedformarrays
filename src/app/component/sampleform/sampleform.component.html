@@ -36,6 +36,7 @@
             <button (click)="deletePlayer(team, playerIndex)">x</button></label
           >
           <label>Player Number <input formControlName="player_number"/></label>
+          <span *ngIf="player.get('player_number').touched">touched!</span>
         </div>
       </div>
     </div>
