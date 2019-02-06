@@ -1,0 +1,44 @@
+<h2>League Manager</h2>
+<form [formGroup]="leagueForm">
+  <div class="form-header" formGroupName="league_details">
+    <label>League Name <input formControlName="name"/></label>
+    <label>Founder <input formControlName="founder"/></label>
+  </div>
+
+  <hr />
+  <button type="button" (click)="addTeam()">Add Team</button>
+  <div formArrayName="teams">
+    <div
+      class="teams"
+      *ngFor="
+        let team of leagueForm.get('teams').controls;
+        let teamIndex = index
+      "
+      [formGroupName]="teamIndex"
+    >
+      <label
+        >Team Name <input formControlName="team_name" />
+        <button (click)="deleteTeam(teamIndex)">x</button></label
+      >
+      <hr />
+      <button type="button" (click)="addPlayer(team)">Add Player</button>
+      <div formArrayName="players">
+        <div
+          class="players"
+          *ngFor="
+            let player of team.get('players').controls;
+            let playerIndex = index
+          "
+          [formGroupName]="playerIndex"
+        >
+          <label
+            >Player Name <input formControlName="player_name" />
+            <button (click)="deletePlayer(team, playerIndex)">x</button></label
+          >
+          <label>Player Number <input formControlName="player_number"/></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{{ this.leagueForm.value | json }}

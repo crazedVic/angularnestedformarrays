@@ -1,0 +1,28 @@
+.form-headers label {
+  display: flex;
+  padding-left: 15px;
+}
+
+.teams {
+  background-color: #c2d1c2;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #000;
+}
+
+.form-header,
+.players {
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: #deebde;
+  padding: 5px 5px;
+  margin: 4px 0;
+}
+
+label {
+  text-align: right;
+}
+
+.form-header {
+  background-color: white;
+}
